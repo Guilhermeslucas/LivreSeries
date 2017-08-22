@@ -43,8 +43,11 @@ then
     echo "EPISODIO: $episodio"
 
 #caso a escolha seja uma exclusão
+#é necessário jogar a saída em um auxiliar e renomeá-lo pois shell não aceita ler e escrever em um mesmo
+#arquivo
 elif [ $escolha = "E" ]
 then
-    grep -v $serie series.txt >> series.txt
+    grep -v $serie series.txt >> aux.txt
+    mv aux.txt series.txt
 
 fi

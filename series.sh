@@ -1,23 +1,29 @@
 #!/bin/sh
 
 echo "Bem vindo ao gerenciador de LivreSeries"
+
+#le a variável de escolha do usuário e atribui a variavel escolha
 read -p "Você quer (I)nserir um novo episódio, (E)xcluir uma série ou (C)onsultar qual episódio está? " escolha
 
-
+#verifica se o usuário inseriu alguma opção válida
 if [ $escolha != "I" ] && [ $escolha != "E" ] && [ $escolha != "C" ]
 then
     echo "Não é uma opção válida. Use I, C ou E"
     exit
 fi
 
+#se a escolha não for uma inserção no banco de dados, o arquivo que guarda as séries não existir,
+#sai do programa com um erro
 if [ $escolha != "I" ] && [ ! -e "series.txt" ]
 then
     echo "Você deve inserir uma série antes de consultá-la"
     exit
 fi
 
+#atribui a variável que o usuário escolher a variável série
 read -p "Qual a série? " serie
 
+#caso a escolha seja um inserção
 if [ $escolha = "I" ]
 then
     read -p "Qual a temporada? " temporada
@@ -25,6 +31,7 @@ then
     echo "$serie,S$temporada,E$episodio" >> series.txt
     echo "Serie inserida com sucesso"
 
+#caso a escolha seja uma consulta
 elif [ $escolha = "C" ]
 then
     encontrado=$(grep $serie series.txt)
@@ -35,6 +42,7 @@ then
     echo "TEMPORADA: $temporada"
     echo "EPISODIO: $episodio"
 
+#caso a escolha seja uma exclusão
 elif [ $escolha = "E" ]
 then
     grep -v $serie series.txt >> series.txt
